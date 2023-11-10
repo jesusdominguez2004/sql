@@ -58,3 +58,45 @@ where dept_count(dept_name) > 4;
 -- mostrar id, nombre y nivel de todos los profesores
 select ID, name, teacher_advisor(ID) as TeacherLevel
 from instructor;
+
+-- 03. contar estudiantes de un curso ingresado
+DELIMITER $$
+create function course_count_takes(course_id varchar(8))
+returns int
+deterministic
+begin
+declare c_count int;
+	select count(*) into c_count
+    from takes
+    where takes.course_id = course_id;
+return (c_count);
+end $$
+DELIMITER ;
+
+-- 04. contar docentes de un curso ingresado
+DELIMITER $$
+create function course_count_teaches(course_id varchar(8))
+returns int
+deterministic
+begin
+declare c_count int;
+	select count(*) into c_count
+    from teaches
+    where teaches.course_id = course_id;
+return (c_count);
+end $$
+DELIMITER ;
+
+-- 05. contar cursos de un docente ingresado
+DELIMITER $$
+create function teacher_count(teacher_id varchar(8))
+returns int
+deterministic
+begin
+declare t_count int;
+	select count(*) into t_count
+    from teaches
+    where teaches.ID = teacher_id;
+return (t_count);
+end $$
+DELIMITER ;
